@@ -1,0 +1,21 @@
+# AI Gateway 配置文件
+server:
+  port: 8080
+  mode: debug  # debug | release
+
+# 网关自身的 API Key（客户端调用网关时使用）
+auth:
+  api_keys:
+    - "sk-gateway-change-me"
+
+# 限流配置
+rate_limit:
+  requests_per_second: 10
+  burst: 20
+
+# 智谱 AI 配置
+zhipu:
+  api_key: "${ZHIPU_API_KEY}"
+  base_url: "https://open.bigmodel.cn/api/paas/v4"
+  default_model: "glm-4-flash"
+  timeout: 120
