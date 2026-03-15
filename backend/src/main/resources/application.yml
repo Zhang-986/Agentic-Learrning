@@ -1,0 +1,61 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: stellar-backend
+
+  # MySQL 数据源
+  datasource:
+    url: jdbc:mysql://110.40.129.139:3306/stellar?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai&createDatabaseIfNotExist=true
+    username: root
+    password: zzk2005
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  # Redis（预留，用户自行部署后启用）
+  data:
+    redis:
+      host: 110.40.129.139
+      port: 6379
+      password: zzk2005
+
+  # QQ 邮箱 SMTP
+  mail:
+    host: smtp.qq.com
+    port: 465
+    username: ${QQ_EMAIL:3225483474@qq.com}
+    password: wnicxbyhdoqpdbdj
+    protocol: smtps
+    default-encoding: UTF-8
+    properties:
+      mail:
+        smtp:
+          ssl:
+            enable: true
+          auth: true
+          starttls:
+            enable: true
+            required: true
+
+  # Spring Security - 关闭默认密码输出
+  security:
+    user:
+      name: admin
+      password: admin
+
+# MyBatis 配置
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.stellar.backend.entity
+  configuration:
+    map-underscore-to-camel-case: true
+
+# JWT 配置
+jwt:
+  secret: StellarIonosphereSecretKey2026MustBeAtLeast256BitsLongForHS256Algorithm!!
+  expiration: 86400000  # 24 小时（毫秒）
+
+# 日志
+logging:
+  level:
+    com.stellar.backend: debug
