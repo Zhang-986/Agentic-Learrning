@@ -44,27 +44,9 @@ func (h *ChatHandler) Handle(c *gin.Context) {
 		return
 	}
 
-	// 流式 vs 非流式
-	if req.Stream {
-		h.handleStream(c, p, &req)
-	} else {
-		h.handleNormal(c, p, &req)
-	}
-}
-
-// handleNormal 非流式处理
-func (h *ChatHandler) handleNormal(c *gin.Context, p provider.Provider, req *model.ChatCompletionRequest) {
-	resp, err := p.ChatCompletion(c.Request.Context(), req)
-	if err != nil {
-		c.JSON(http.StatusBadGateway, model.NewErrorResponse(
-			"调用智谱 AI 失败: "+err.Error(),
-			"api_error",
-			"provider_error",
-		))
-		return
-	}
-
-	c.JSON(http.StatusOK, resp)
+	// 强制使用流式输出
+	req.Stream = true
+	h.handleStream(c, p, &req)
 }
 
 // handleStream SSE 流式处理

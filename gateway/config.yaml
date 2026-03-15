@@ -15,7 +15,7 @@ rate_limit:
 
 # 智谱 AI 配置
 zhipu:
-  api_key: "${ZHIPU_API_KEY}"
+  api_key: "00fefb9ba1f146e6af91130327f58404.xq7xL639PjwmGpOa"
   base_url: "https://open.bigmodel.cn/api/paas/v4"
-  default_model: "glm-4-flash"
+  default_model: "GLM-4.7-FlashX"
   timeout: 120
