@@ -1,6 +1,7 @@
 package middleware
 
 import (
+	"crypto/subtle"
 	"net/http"
 	"strings"
 
@@ -10,12 +11,10 @@ import (
 )
 
 // Auth 创建 API Key 认证中间件
+//
+// 修复: 原实现使用 map lookup，不是常量时间比较，存在 timing attack 风险。
+// 现在改为 crypto/subtle.ConstantTimeCompare 逐个比较。
 func Auth(validKeys []string) gin.HandlerFunc {
-	keySet := make(map[string]struct{}, len(validKeys))
-	for _, k := range validKeys {
-		keySet[k] = struct{}{}
-	}
-
 	return func(c *gin.Context) {
 		authHeader := c.GetHeader("Authorization")
 		if authHeader == "" {
@@ -39,7 +38,15 @@ func Auth(validKeys []string) gin.HandlerFunc {
 		}
 
 		apiKey := parts[1]
-		if _, ok := keySet[apiKey]; !ok {
+		valid := false
+		for _, k := range validKeys {
+			if subtle.ConstantTimeCompare([]byte(apiKey), []byte(k)) == 1 {
+				valid = true
+				break
+			}
+		}
+
+		if !valid {
 			c.AbortWithStatusJSON(http.StatusUnauthorized, model.NewErrorResponse(
 				"无效的 API Key",
 				"authentication_error",

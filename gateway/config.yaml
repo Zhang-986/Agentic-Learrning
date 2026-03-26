@@ -4,9 +4,10 @@ server:
   mode: debug  # debug | release
 
 # 网关自身的 API Key（客户端调用网关时使用）
+# 生产环境请通过环境变量注入，不要在配置文件中硬编码
 auth:
   api_keys:
-    - "sk-gateway-change-me"
+    - "${GATEWAY_API_KEY:test-key-001}"
 
 # 限流配置
 rate_limit:
@@ -15,7 +16,7 @@ rate_limit:
 
 # 智谱 AI 配置
 zhipu:
-  api_key: "00fefb9ba1f146e6af91130327f58404.xq7xL639PjwmGpOa"
+  api_key: "${ZHIPU_API_KEY}"
   base_url: "https://open.bigmodel.cn/api/paas/v4"
   default_model: "GLM-4.7-FlashX"
   timeout: 120
