@@ -19,6 +19,9 @@
           <span class="dot">.</span>
         </h1>
         <p class="hero-sub">你的知识蒸馏助手已就绪</p>
+        <button class="btn-primary hero-cta" @click="router.push('/harness')">
+          启动 AI 思考引擎 ★
+        </button>
       </div>
       <div class="hero-deco">
         <div class="deco-big-star">★</div>
@@ -194,6 +197,29 @@ function handleLogout() {
   font-size: 18px;
   font-weight: 700;
   opacity: 0.7;
+}
+
+.hero-cta {
+  margin-top: 2rem;
+  padding: 1rem 2.5rem;
+  background: var(--neo-accent);
+  color: white;
+  border: var(--border);
+  box-shadow: var(--shadow-md);
+  font-size: 1.25rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.hero-cta:hover {
+  transform: translate(-4px, -4px);
+  box-shadow: var(--shadow-lg);
+}
+
+.hero-cta:active {
+  transform: translate(2px, 2px);
+  box-shadow: none;
 }
 
 .hero-deco { position: relative; }

@@ -9,6 +9,7 @@ import (
 	"github.com/agentic-learning/gateway/internal/config"
 	"github.com/agentic-learning/gateway/internal/handler"
 	"github.com/agentic-learning/gateway/internal/middleware"
+	"github.com/agentic-learning/gateway/internal/orchestrator"
 	"github.com/agentic-learning/gateway/internal/provider"
 )
 
@@ -39,6 +40,10 @@ func Setup(cfg *config.Config, registry *provider.Registry, logger *zap.Logger) 
 	{
 		chatHandler := handler.NewChatHandler(registry)
 		v1.POST("/chat/completions", chatHandler.Handle)
+
+		sessionStore := orchestrator.NewInMemSessionStore()
+		harnessHandler := handler.NewHarnessHandler(registry, sessionStore)
+		v1.POST("/harness/run", harnessHandler.Handle)
 	}
 
 	return r
